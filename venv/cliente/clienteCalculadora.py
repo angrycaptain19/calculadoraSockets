@@ -1,6 +1,7 @@
 
 #Importamos la libreria socket
 import socket
+import os
 import sys
 
 print("EMPEZAMOS")
@@ -13,12 +14,6 @@ ARCHIVO = "operacion.txt"
 usuario = "los naranjos"
 contra = "morcilla1"
 
-operaciones = ["suma", "resta", "multiplicacion", "division"]
-
-#Creamos el socket y nos conectamos
-cliente = socket.socket()
-cliente.connect(CONEXION)
-
 usuario = input("Introduce el usuario: ")
 contra = input("Introduce la contraseña: ")
 
@@ -30,6 +25,36 @@ else:
     cliente.close()
     sys.exit()
 
+operaciones = ["suma", "resta", "multiplicacion", "division"]
+
+operacion = input("Introduce que operacion va a realizar ('suma', 'resta', 'multiplicacion' o 'division'): ")
+
+while operacion not in operaciones:
+    operacion = input("Introduce que operacion va a realizar ('suma', 'resta', 'multiplicacion' o 'division'): ")
+
+while True:
+    try:
+        num1 = int(input("Introduce el primer numero: "))
+        break
+    except ValueError:
+        print("Debe ser un número.")
+
+while True:
+    try:
+        num2 = int(input("Introduce el segundo numero: "))
+        break
+    except ValueError:
+        print("Debe ser un número.")
+
+f = open("operacion.txt", 'w')
+f.write("Operacion: " + operacion + os.linesep)
+f.write("op1: " + str(num1) + os.linesep)
+f.write("op2: " + str(num2) + os.linesep)
+f.close()
+
+#Creamos el socket y nos conectamos
+cliente = socket.socket()
+cliente.connect(CONEXION)
 
 #Abrimos el archivo en modo lectura binaria y leemos el contenido
 with open(ARCHIVO, 'rb') as archivo:
@@ -59,26 +84,6 @@ if recibido.decode("utf-8") == "OK":
 
     print("Esperando respuesta del servidor...")
 
-    operacion = input("Introduce que operacion va a realizar ('suma', 'resta', 'multiplicacion' o 'division'): ")
-
-    while operacion not in operaciones:
-
-        operacion = input("Introduce que operacion va a realizar ('suma', 'resta', 'multiplicacion' o 'division'): ")
-
-    while True:
-        try:
-            num1 = int(input("Introduce el primer numero: "))
-            break
-        except ValueError:
-            print("Debe ser un número.")
-
-    while True:
-        try:
-           num2 = int(input("Introduce el segundo numero: "))
-           break
-        except ValueError:
-            print("Debe ser un número.")
-
     #Creamos contador para los datos que esperamos recibir
     datosEsperados = 0
 
@@ -95,18 +100,18 @@ if recibido.decode("utf-8") == "OK":
         datosRecibidos = 0
 
         #Abrimos el archivo en modo escritura binaria
-        f = open("respuesta", 'wb')
+        f = open("resultadoCliente.txt", 'wb')
         l = cliente.recv(datosEsperados)
         f.write(l) #Escribimos
         datosRecibidos = datosRecibidos + len(l)
 
+        #Escribimos los datos necesarios(todos los bytes)
         while (datosRecibidos < datosEsperados):
             l = cliente.recv(1024)
             f.write(l)
             datosRecibidos = datosRecibidos + len(l)
         f.close()
         print("Fichero de respuesta recibido con éxito")
-
 
 else:
     print("Recibimos",recibido.decode("utf-8"))
