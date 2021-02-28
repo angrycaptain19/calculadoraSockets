@@ -46,11 +46,12 @@ while True:
     except ValueError:
         print("Debe ser un número.")
 
+#Abrimos el archivo en modo escritura
 f = open("operacion.txt", 'w')
 f.write("Operacion: " + operacion + os.linesep)
 f.write("op1: " + str(num1) + os.linesep)
 f.write("op2: " + str(num2) + os.linesep)
-f.close()
+f.close() #Cerramos
 
 #Creamos el socket y nos conectamos
 cliente = socket.socket()
@@ -60,6 +61,7 @@ cliente.connect(CONEXION)
 with open(ARCHIVO, 'rb') as archivo:
     buffer = archivo.read()
 
+#Mostramos el tamaño del archivo
 print("El tamanio del archivo es de: ", len(buffer))
 
 #Enviamos la cantida de bytes del archivo
@@ -76,6 +78,7 @@ if recibido.decode("utf-8") == "OK":
     file = open(ARCHIVO, 'rb')
     l = file.read(1024)
 
+    #Lo leemos completamente
     while l:
         cliente.sendall(l)#Enviamos todo
         l = file.read(1024)

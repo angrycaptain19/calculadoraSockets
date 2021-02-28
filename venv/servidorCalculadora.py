@@ -48,12 +48,17 @@ while True:
         f.close() #Cerramos el archivo que hemos abierto para escribir en el anteriormente
         print("Fichero recibido") #Mostramos que se ha recibido
 
+        #Abrimos el archivo de nuevo en modo lectura binaria
         f1 = open("operacionServidor.txt", 'rb')
-        leerTodo = f1.readlines()
+
+        leerTodo = f1.readlines() #Leemos todo el archivo
+
+        #Separamos el contenido por los dos puntos
         op = leerTodo[0].decode("utf-8").split(":")
         num_1 = leerTodo[1].decode("utf-8").split(":")
         num_2 = leerTodo[2].decode("utf-8").split(":")
 
+        #Creamos variables para guardar la operacion, la operacion y los operandos
         resultadoOperacion = 0
         operar = op[0]
         operador1 = num_1[0]
@@ -84,6 +89,8 @@ while True:
         #Abrimos el archivo en modo lectura binaria
         with open("respuestaServidor.txt", "rb") as archivo:
             buffer = archivo.read()
+
+        #Mostramos el tamanio del archivo
         print("Tamanio del archivo: " , len(buffer))
         sck.send(str(len(buffer)).encode("utf-8"))
         recibido = sck.recv(10)
