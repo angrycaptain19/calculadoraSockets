@@ -8,12 +8,12 @@ print("EMPEZAMOS")
 
 #Creamos una lista con la direccion y el puerto donde nos conectaremos
 
-CONEXION = (socket.gethostname(),19001)
+CONEXION = (socket.gethostname(), 19001)
 ARCHIVO = "operacion.txt"
 
 usuario = "los naranjos"
 contra = "morcilla1"
-
+'''
 usuario = input("Introduce el usuario: ")
 contra = input("Introduce la contraseña: ")
 
@@ -24,7 +24,7 @@ else:
     print("Acceso denegado")
     cliente.close()
     sys.exit()
-
+'''
 operaciones = ["suma", "resta", "multiplicacion", "division"]
 
 operacion = input("Introduce que operacion va a realizar ('suma', 'resta', 'multiplicacion' o 'division'): ")
@@ -117,7 +117,7 @@ if recibido.decode("utf-8") == "OK":
         print("Fichero de respuesta recibido con éxito")
 
 else:
-    print("Recibimos",recibido.decode("utf-8"))
+    print("Recibimos", recibido.decode("utf-8"))
     print("TERMINAMOS")
 
 cliente.close()

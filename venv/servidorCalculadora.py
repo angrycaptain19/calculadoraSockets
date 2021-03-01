@@ -19,11 +19,11 @@ while True:
 
     #Aceptamos las conexiones
     sck, addr = servidor.accept()
-    print("Conexto a: {0} : {1} ".format(*addr))
+    print("Conecto a: {0} : {1} ".format(*addr))
 
     #Recibimos la longitud que envia el cliente
     recibido = sck.recv(1024).strip()
-    print("Recibido: " , recibido.decode("utf-8"))
+    print("Recibido: ", recibido.decode("utf-8"))
 
     #Comprobamos que se reciba
     if recibido.isdigit():
@@ -35,7 +35,7 @@ while True:
         datosRecibidos = 0
 
         #Abrimos el archivo en modo escritura binaria
-        f = open("operacionServidor.txt",'wb')
+        f = open("operacionServidor.txt", 'wb')
         l = sck.recv(datosEsperados)
         datosRecibidos = datosRecibidos + len(l)
 
@@ -60,30 +60,35 @@ while True:
 
         #Creamos variables para guardar la operacion, la operacion y los operandos
         resultadoOperacion = 0
-        operar = op[0]
-        operador1 = num_1[0]
-        operador2 = num_2[0]
+        operar = op[1].strip()
+        operador1 = num_1[1].strip()
+        operador2 = num_2[1].strip()
 
         #Sumamos
-        if(operar == "suma\n"):
+        if(operar == "suma"):
 
-            resultadoOperacion = int(num_1) + int(num2)
+            resultadoOperacion = int(operador1) + int(operador2)
 
         #Restamos
-        if (operar == "resta\n"):
-            resultadoOperacion = int(num_1) - int(num2)
+        if (operar == "resta"):
+            resultadoOperacion = int(operador1) - int(operador2)
 
         #Dividimos
-        if (operar == "division\n"):
-            resultadoOperacion = int(num_1) / int(num2)
+        if (operar == "division"):
+            resultadoOperacion = int(operador1) / int(operador2)
 
         #Multiplicamos
-        if (operar == "multiplicacion\n"):
-            resultadoOperacion = int(num_1) * int(num2)
+        if (operar == "multiplicacion"):
+            resultadoOperacion = int(operador1) * int(operador2)
 
         #Abrimos un nuevo archivo donde guardaremos la respuesta del servidor con el resultado
         f = open("respuestaServidor.txt", "w")
         f.write("Resultado: " + str(resultadoOperacion))
+
+        print("Operacion: ", operar)
+        print("Numero 1: ", operador1)
+        print("Numero 2: ", operador2)
+        print("El resultado: ", resultadoOperacion)
         f.close()
 
         #Abrimos el archivo en modo lectura binaria
@@ -91,7 +96,7 @@ while True:
             buffer = archivo.read()
 
         #Mostramos el tamanio del archivo
-        print("Tamanio del archivo: " , len(buffer))
+        print("Tamanio del archivo: ", len(buffer))
         sck.send(str(len(buffer)).encode("utf-8"))
         recibido = sck.recv(10)
 

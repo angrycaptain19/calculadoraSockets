@@ -1,3 +1,0 @@
-Operacion: suma
-op1: 6
-op2: 5
