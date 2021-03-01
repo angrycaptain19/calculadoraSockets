@@ -13,7 +13,7 @@ ARCHIVO = "operacion.txt"
 
 usuario = "los naranjos"
 contra = "morcilla1"
-'''
+
 usuario = input("Introduce el usuario: ")
 contra = input("Introduce la contraseña: ")
 
@@ -22,9 +22,9 @@ if(usuario.__eq__("los naranjos") & contra.__eq__("morcilla1")):
 
 else:
     print("Acceso denegado")
-    cliente.close()
+    #cliente.close()
     sys.exit()
-'''
+
 operaciones = ["suma", "resta", "multiplicacion", "division"]
 
 operacion = input("Introduce que operacion va a realizar ('suma', 'resta', 'multiplicacion' o 'division'): ")
